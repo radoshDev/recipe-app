@@ -27,7 +27,7 @@ type Props = {
 
 const Recipe: NextPage<Props> = ({ recipe: data, preview }: Props) => {
 	const { data: recipe } = usePreviewSubscription<FilteredRecipe>(queryRecipe, {
-		params: { slug: data.slug.current },
+		params: { slug: data?.slug.current },
 		initialData: data,
 		enabled: preview,
 	})
