@@ -32,16 +32,16 @@ const Recipe: NextPage<Props> = ({ recipe: data, preview }: Props) => {
 		enabled: preview,
 	})
 	const router = useRouter()
-	const [likes, setLikes] = useState(recipe.likes)
+	const [likes, setLikes] = useState(recipe?.likes)
 	const imageUrl = useMemo(
-		() => urlFor(recipe.mainImage).width(1000).url(),
-		[recipe.mainImage.asset._ref]
+		() => urlFor(recipe?.mainImage).width(1000).url(),
+		[recipe?.mainImage.asset._ref]
 	)
 	const addLike = async (): Promise<void> => {
 		try {
 			const response = await fetch("/api/likes", {
 				method: "POST",
-				body: JSON.stringify({ _id: recipe._id }),
+				body: JSON.stringify({ _id: recipe?._id }),
 			})
 			const likesData: { likes: number } = await response.json()
 			setLikes(likesData.likes)
@@ -54,17 +54,17 @@ const Recipe: NextPage<Props> = ({ recipe: data, preview }: Props) => {
 	}
 	return (
 		<article>
-			<h1>{recipe.name}</h1>
+			<h1>{recipe?.name}</h1>
 			<button type="button" className="likes-btn" onClick={addLike}>
 				{likes} ❤️
 			</button>
 			<main style={{ display: "flex", gap: "20px" }}>
 				{imageUrl && (
-					<Image src={imageUrl} width={500} height={500} alt={recipe.name} />
+					<Image src={imageUrl} width={500} height={500} alt={recipe?.name} />
 				)}
 				<div>
 					<ul>
-						{recipe.ingredient?.map(
+						{recipe?.ingredient?.map(
 							({ _key, ingredient, unit, fraction, wholeNumber }) => (
 								<li key={_key}>
 									{wholeNumber} {fraction} {unit}
@@ -74,7 +74,7 @@ const Recipe: NextPage<Props> = ({ recipe: data, preview }: Props) => {
 							)
 						)}
 					</ul>
-					<PortableText blocks={recipe.instructions} />
+					<PortableText blocks={recipe?.instructions} />
 				</div>
 			</main>
 		</article>
